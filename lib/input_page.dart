@@ -5,11 +5,34 @@ import 'reusable_card.dart';
 
 const bottomContainerHeight = 80.0;
 const activeCardColor = Colors.teal;
+const inactiveCardColor = Colors.lightGreen;
 const bottomContainerColor = Color(0xFFEB1555);
 
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
+}
+
+Color maleCardColor = inactiveCardColor;
+Color femaleCardColor = inactiveCardColor;
+
+void updateColor(int gender) {
+  if (gender == 1) {
+    if (maleCardColor == inactiveCardColor) {
+      maleCardColor = activeCardColor;
+      femaleCardColor = inactiveCardColor;
+    } else {
+      maleCardColor = inactiveCardColor;
+    }
+  }
+  if (gender == 2) {
+    if (femaleCardColor == inactiveCardColor) {
+      femaleCardColor = activeCardColor;
+      maleCardColor = inactiveCardColor;
+    } else {
+      femaleCardColor = inactiveCardColor;
+    }
+  }
 }
 
 class _InputPageState extends State<InputPage> {
@@ -27,23 +50,32 @@ class _InputPageState extends State<InputPage> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    print('タップ');
+                    setState(() {
+                      updateColor(1);
+                    });
                   },
                   child: ReusableCard(
-                    color: activeCardColor,
+                    color: maleCardColor,
                     cardChild: IconContent(
                       icon: FontAwesomeIcons.mars,
-                      label: 'MARS',
+                      label: '男性',
                     ),
                   ),
                 ),
               ),
               Expanded(
-                child: ReusableCard(
-                  color: activeCardColor,
-                  cardChild: IconContent(
-                    icon: FontAwesomeIcons.venus,
-                    label: 'FEMALE',
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      updateColor(2);
+                    });
+                  },
+                  child: ReusableCard(
+                    color: femaleCardColor,
+                    cardChild: IconContent(
+                      icon: FontAwesomeIcons.venus,
+                      label: '女性',
+                    ),
                   ),
                 ),
               ),
